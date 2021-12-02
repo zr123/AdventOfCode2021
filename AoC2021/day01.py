@@ -2,6 +2,7 @@ import numpy as np
 
 
 def part1(myinput):
+    myinput = np.array(myinput, dtype=np.int64)
     return np.sum(myinput[1:] - myinput[:-1] > 0)
 
 
@@ -13,5 +14,6 @@ def get_windows(myinput):
 
 
 def part2(myinput):
+    myinput = np.array(myinput, dtype=np.int64)
     windows = get_windows(myinput)
     return part1(windows)
