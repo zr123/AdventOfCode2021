@@ -26,18 +26,15 @@ class Submarine:
         return self.x * self.depth
 
 
-def part1(myinput):
-    sub = Submarine(myinput)
+def part1(my_input):
+    sub = Submarine(my_input)
     return sub.get_positional_value()
 
 
 class AimedSubmarine(Submarine):
     def __init__(self, commands=None):
-        self.x = 0
-        self.depth = 0
         self.aim = 0
-        if commands is not None:
-            self.take_commands(commands)
+        super().__init__(commands)
 
     def take_command(self, command):
         command, value = command.split()
@@ -54,6 +51,6 @@ class AimedSubmarine(Submarine):
             raise Exception("Unhandled command!")
 
 
-def part2(myinput):
-    sub = AimedSubmarine(myinput)
+def part2(my_input):
+    sub = AimedSubmarine(my_input)
     return sub.get_positional_value()

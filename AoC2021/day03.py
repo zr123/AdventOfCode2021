@@ -6,19 +6,19 @@ def str_to_ints(string):
     return [int(char) for char in string]
 
 
-def part1(myinput):
-    numpy_input = np.array([str_to_ints(s.rstrip()) for s in myinput])
+def part1(my_input):
+    numpy_input = np.array([str_to_ints(s.rstrip()) for s in my_input])
     gamma = ""
     epsilon = ""
-    for i in range(len(myinput[0])-1):
-        bit = round(np.sum(numpy_input[:, i]) / len(myinput))
+    for i in range(len(my_input[0]) - 1):
+        bit = round(np.sum(numpy_input[:, i]) / len(my_input))
         gamma += str(bit)
         epsilon += str(int(not bit))
     return int(gamma, 2) * int(epsilon, 2)
 
 
-def part2(myinput):
-    pandas_input = pd.DataFrame([str_to_ints(s.rstrip()) for s in myinput])
+def part2(my_input):
+    pandas_input = pd.DataFrame([str_to_ints(s.rstrip()) for s in my_input])
     # oxygen
     pandas_oxygen = pandas_input.copy()
     for i in range(len(pandas_oxygen.columns)):

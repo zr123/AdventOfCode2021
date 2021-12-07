@@ -1,8 +1,9 @@
 import importlib
 import pytest
 
+
 # this probably violates a number of guidelines on how to write good tests
-@pytest.mark.parametrize("day, part, inputfile, result", [
+@pytest.mark.parametrize("day, part, input_file, result", [
     ("01", 1, "inputs/input01_test.txt",    7),
     ("01", 1, "inputs/input01.txt",         1374),
     ("01", 2, "inputs/input01_test.txt",    5),
@@ -32,11 +33,11 @@ import pytest
     ("07", 2, "inputs/input07_test.txt",    168),
     ("07", 2, "inputs/input07.txt",         92335207),
 ])
-def test_everything(day, part, inputfile, result):
+def test_everything(day, part, input_file, result):
     module = importlib.import_module(f"AoC2021.day{day}")
-    with open("tests/2021/" + inputfile) as file:
-        myinput = file.readlines()
+    with open("tests/2021/" + input_file) as file:
+        my_input = file.readlines()
     if part == 1:
-        assert(module.part1(myinput) == result)
+        assert(module.part1(my_input) == result)
     else:
-        assert(module.part2(myinput) == result)
+        assert(module.part2(my_input) == result)

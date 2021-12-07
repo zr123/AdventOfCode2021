@@ -1,9 +1,9 @@
 import numpy as np
 
 
-def part1(myinput):
+def part1(my_input):
     field = np.zeros((1000, 1000))
-    for line in myinput:
+    for line in my_input:
         x1, y1, x2, y2 = [int(n) for n in line.replace(" -> ", ",").rstrip().split(",")]
         if x1 == x2 or y1 == y2:
             x1, x2 = sorted([x1, x2])
@@ -13,9 +13,9 @@ def part1(myinput):
     return len(field[field > 1])
 
 
-def part2(myinput):
+def part2(my_input):
     field = np.zeros((1000, 1000))
-    for line in myinput:
+    for line in my_input:
         x1, y1, x2, y2 = [int(n) for n in line.replace(" -> ", ",").rstrip().split(",")]
         if x1 == x2 or y1 == y2:
             # horizontal / vertical

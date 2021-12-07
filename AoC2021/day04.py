@@ -25,20 +25,20 @@ def calc_board_sum(board):
     return np.sum(board[~np.isnan(board)])
 
 
-def part1(myinput):
-    instructions, boards = process_input(myinput)
+def part1(my_input):
+    instructions, boards = process_input(my_input)
     for i in instructions:
         boards[boards == i] = np.NAN
         for board in boards:
             if is_finished(board):
-                boardsum = calc_board_sum(board)
-                return boardsum * i
+                board_sum = calc_board_sum(board)
+                return board_sum * i
 
     raise Exception("This should never happen.")
 
 
-def part2(myinput):
-    instructions, boards = process_input(myinput)
+def part2(my_input):
+    instructions, boards = process_input(my_input)
     for i in instructions:
         boards[boards == i] = np.NAN
         remove = []
@@ -49,7 +49,7 @@ def part2(myinput):
         if boards.shape[0] > 1:
             boards = np.delete(boards, remove, 0)
         else:
-            boardsum = calc_board_sum(boards[0])
-            return boardsum * i
+            board_sum = calc_board_sum(boards[0])
+            return board_sum * i
 
     raise Exception("This should never happen.")
