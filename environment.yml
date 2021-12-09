@@ -1,9 +1,13 @@
-name: AdventOfCode
+name: aoc
 channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.*
+  - python=3.10
   - pytest
   - numpy
   - pandas
+  - python-dotenv
+  - pip
+  - pip:
+      - advent-of-code-data
