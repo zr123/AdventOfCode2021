@@ -11,10 +11,10 @@ def flash(octopus_map, y, x):
         y_min = 0
     if x_min < 0:
         x_min = 0
-    if y_max > 10:
-        y_max = 10
-    if x_max > 10:
-        x_max = 10
+    if y_max > octopus_map.shape[0]:
+        y_max = octopus_map.shape[0]
+    if x_max > octopus_map.shape[1]:
+        x_max = octopus_map.shape[1]
 
     octopus_map[y_min:y_max, x_min:x_max] += 1
     # santa?! what does the scanner say about the energy level?!
@@ -26,7 +26,7 @@ def flash(octopus_map, y, x):
                 flash(octopus_map, y_i, x_i)
 
 
-def timestep(octopus_map):
+def time_step(octopus_map):
     octopus_map += 1
     for y_i in range(octopus_map.shape[0]):
         for x_i in range(octopus_map.shape[1]):
@@ -42,7 +42,7 @@ def part1(my_input):
     octopus_map = np.array([str_to_ints(s.rstrip()) for s in my_input])
     total_flashes = 0
     for i in range(100):
-        total_flashes += timestep(octopus_map)
+        total_flashes += time_step(octopus_map)
     return total_flashes
 
 
@@ -50,7 +50,7 @@ def part2(my_input):
     octopus_map = np.array([str_to_ints(s.rstrip()) for s in my_input])
     i = 1
     while True:
-        flashes = timestep(octopus_map)
+        flashes = time_step(octopus_map)
         if flashes == 100:
             return i
         i += 1
