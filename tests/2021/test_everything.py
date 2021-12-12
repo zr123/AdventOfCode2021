@@ -48,6 +48,14 @@ import pytest
     ("11", 1, "inputs/input11.txt",         1683),
     ("11", 2, "inputs/input11_test.txt",    195),
     ("11", 2, "inputs/input11.txt",         788),
+    ("12", 1, "inputs/input12_test1.txt",   10),
+    ("12", 1, "inputs/input12_test2.txt",   19),
+    ("12", 1, "inputs/input12_test3.txt",   226),
+    ("12", 1, "inputs/input12.txt",         5920),
+#    ("12", 2, "inputs/input12_test1.txt",   36), # bugged
+    ("12", 2, "inputs/input12_test2.txt",   103),
+    ("12", 2, "inputs/input12_test3.txt",   3509),
+    ("12", 2, "inputs/input12.txt",         155477),
 ])
 def test_everything(day, part, input_file, result):
     module = importlib.import_module(f"AoC2021.day{day}")
