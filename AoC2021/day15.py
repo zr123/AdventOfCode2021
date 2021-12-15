@@ -5,7 +5,7 @@ def str_to_ints(string):
     return [int(char) for char in string]
 
 
-def calc_risk_level(x_coord, y_coord, risk_levels, risk_map):
+def calc_location_risk_level(x_coord, y_coord, risk_levels, risk_map):
     risks = []
     if x_coord > 0:
         risks.append(risk_levels[y_coord, x_coord - 1])
@@ -19,35 +19,62 @@ def calc_risk_level(x_coord, y_coord, risk_levels, risk_map):
     return min(risks) + risk_map[y_coord, x_coord]
 
 
-def calcuate_risk_levels(risk_map):
+def calculate_risk_levels(risk_map):
     risk_levels = np.full(risk_map.shape, 2 ** 30)
     risk_levels[0, 0] = 0
 
-    loop_var = True
-    iteration = 0
-    while loop_var:
-        previous_risk_levels = risk_levels.copy()
-        # recalculate values for every location
-        for n in range(2, sum(risk_levels.shape)):
-            for i in range(n):
-                x = i
-                y = (n - 1) - i
-                if x >= risk_levels.shape[1] or y >= risk_levels.shape[0]:
-                    continue
-                risk_levels[y, x] = calc_risk_level(x, y, risk_levels, risk_map)
+    for n in range(2, sum(risk_levels.shape)):
+        for i in range(n):
+            x = i
+            y = (n - 1) - i
+            if x >= risk_levels.shape[1] or y >= risk_levels.shape[0]:
+                continue
+            risk_levels[y, x] = calc_location_risk_level(x, y, risk_levels, risk_map)
 
-        # stop recalculating the risk levels if there are no more changes
-        print(iteration)
-        iteration += 1
+    return risk_levels
+
+
+def refine_risk_levels_step(risk_levels, risk_map):
+    # from below
+    alternative = risk_levels[1:, :] + risk_map[:-1, :]
+    booleans = risk_levels[:-1, :] > alternative
+    risk_levels[:-1, :][booleans] = alternative[booleans]
+
+    # from the top
+    alternative = risk_levels[:-1, :] + risk_map[1:, :]
+    booleans = risk_levels[1:, :] > alternative
+    risk_levels[1:, :][booleans] = alternative[booleans]
+
+    # from the left
+    alternative = risk_levels[:, 1:] + risk_map[:, :-1]
+    booleans = risk_levels[:, :-1] > alternative
+    risk_levels[:, :-1][booleans] = alternative[booleans]
+
+    # from the right
+    alternative = risk_levels[:, :-1] + risk_map[:, 1:]
+    booleans = risk_levels[:, 1:] > alternative
+    risk_levels[:, 1:][booleans] = alternative[booleans]
+
+    return risk_levels
+
+
+# because of weird snakey paths the initial diagonal calculation may not be correct
+def refine_risk_levels(risk_levels, risk_map):
+    iterations = 0
+    while True:
+        previous_risk_levels = risk_levels.copy()
+        risk_levels = refine_risk_levels_step(risk_levels, risk_map)
+        iterations += 1
         if (previous_risk_levels == risk_levels).all():
-            loop_var = False
+            break
 
     return risk_levels
 
 
 def part1(my_input):
     risk_map = np.array([str_to_ints(s.rstrip()) for s in my_input])
-    risk_levels = calcuate_risk_levels(risk_map)
+    risk_levels = calculate_risk_levels(risk_map)
+    risk_levels = refine_risk_levels(risk_levels, risk_map)
     return risk_levels[-1, -1]
 
 
@@ -63,12 +90,12 @@ def bloat_risk_map(risk_map, factor=5):
                 risk_map.shape[0] * y: risk_map.shape[0] * (y + 1),
                 risk_map.shape[1] * x: risk_map.shape[1] * (x + 1)
             ] = intermediate_risk_map
-
     return bloated_risk_map
 
 
 def part2(my_input):
     risk_map = np.array([str_to_ints(s.rstrip()) for s in my_input])
     risk_map = bloat_risk_map(risk_map)
-    risk_levels = calcuate_risk_levels(risk_map)
+    risk_levels = calculate_risk_levels(risk_map)
+    risk_levels = refine_risk_levels(risk_levels, risk_map)
     return risk_levels[-1, -1]
