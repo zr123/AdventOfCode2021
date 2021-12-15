@@ -63,6 +63,10 @@ import pytest
     ("14", 1, "inputs/input14.txt",         3906),
     ("14", 2, "inputs/input14_test.txt",    2188189693529),
     ("14", 2, "inputs/input14.txt",         4441317262452),
+    ("15", 1, "inputs/input15_test.txt",    40),
+    ("15", 1, "inputs/input15.txt",         487),
+    ("15", 2, "inputs/input15_test.txt",    315),
+    ("15", 2, "inputs/input15.txt",         2821),
 ])
 def test_everything(day, part, input_file, result):
     module = importlib.import_module(f"AoC2021.day{day}")
