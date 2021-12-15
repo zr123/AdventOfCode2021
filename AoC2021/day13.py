@@ -82,6 +82,7 @@ def part2(my_input):
         paper = fold_paper(paper, instruction)
 
     print_paper(paper)
+    # Todo conversion "hash text" to string
     return "UEFZCUCJ"
 
 
