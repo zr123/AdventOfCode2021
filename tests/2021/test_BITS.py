@@ -47,8 +47,8 @@ def test_sub_packet_values2():
     assert bits.sub_packets[1].get_value() == 20
 
 
-def test_get_value():
-    assert BITS("D2FE28").get_value() == 2021
+def test_get_literal_value():
+    assert BITS("D2FE28").get_literal_value() == 2021
 
 
 @pytest.mark.parametrize("data, version_sum", [
@@ -59,3 +59,17 @@ def test_get_value():
 ])
 def test_get_version_sum(data, version_sum):
     assert BITS(data).get_version_sum() == version_sum
+
+
+@pytest.mark.parametrize("data, value", [
+    ("C200B40A82", 3),
+    ("04005AC33890", 54),
+    ("880086C3E88112", 7),
+    ("CE00C43D881120", 9),
+    ("D8005AC2A8F0", 1),
+    ("F600BC2D8F", 0),
+    ("9C005AC2F8F0", 0),
+    ("9C0141080250320F1802104A08", 1),
+])
+def test_get_value(data, value):
+    assert BITS(data).get_value() == value

@@ -1,4 +1,5 @@
 from bitarray import bitarray, util
+import numpy as np
 
 
 class BITS:
@@ -39,6 +40,28 @@ class BITS:
                 self.package_size = 7 + 15 + self.package_length
 
     def get_value(self):
+        if self.type_id == 4:
+            return self.get_literal_value()
+        else:
+            sub_values = []
+            for sub_packet in self.sub_packets:
+                sub_values.append(sub_packet.get_value())
+            if self.type_id == 0:
+                return np.sum(sub_values)
+            if self.type_id == 1:
+                return np.product(sub_values)
+            if self.type_id == 2:
+                return np.min(sub_values)
+            if self.type_id == 3:
+                return np.max(sub_values)
+            if self.type_id == 5:
+                return sub_values[0] > sub_values[1]
+            if self.type_id == 6:
+                return sub_values[0] < sub_values[1]
+            if self.type_id == 7:
+                return sub_values[0] == sub_values[1]
+
+    def get_literal_value(self):
         # assumes the packet is type == 4
         i = 0
         value = bitarray()
